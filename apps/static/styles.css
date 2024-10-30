@@ -1,0 +1,104 @@
+/* Add a black background color to the top navigation */ 
+.topnav { 
+    background-color: #eeeeee; 
+    width: 100%; 
+  } 
+/* Style the links inside the navigation bar */ 
+.topnav a { 
+    color: #000000; 
+    text-align: center; 
+    margin-right: 25px; 
+    text-decoration: none; 
+    font-size: 17px; 
+    } 
+    /* Add a color to the active/current link */ 
+    .topnav a.active{ 
+    color: #008CBA; 
+    }
+   
+   /* General styling for all links */
+a {
+    display: inline-flex;
+    text-align: center;
+    padding: 0px;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+}
+
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+
+/*-------*/
+/* Styling for the heading */
+h1 {
+    background-color: #f4f4d4; /* light green background */
+    color: green; /* green text */
+    padding: 15px;
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+}
+
+/* General paragraph styling */
+p {
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    margin: 10px 0;
+}
+
+
+/*------*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+h1 {
+    color: #fff;
+    background-color: #20a7ae;
+    padding: 10px;
+    border-radius: 5px;
+}
+ul {
+    list-style-type: none;
+    padding: 10px;
+}
+li {
+    margin: 5px 0;
+}
+
+/*-----*/
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+table{
+    width: 60%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    border: 1px solid #dddddd;
+    width : "40%";
+    text-align: center;
+    padding: 8px;
+}
+th {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+img {
+    width: 20%;
+    height: auto;
+}

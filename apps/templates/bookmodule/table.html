@@ -1,0 +1,70 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h3>Table 1: Table of Fruits and Their Prices</h3>
+<table>
+    <tr>
+        <th>Fruit</th>
+        <th>Price</th>
+    </tr>
+    <tr>
+        <td>Apple</td>
+        <td>$0.25</td>
+    </tr>
+    <tr>
+        <td>Orange</td>
+        <td>$0.50</td>
+    </tr>
+    <tr>
+        <td>Banana</td>
+        <td>$1.00</td>
+    </tr>
+    <tr>
+        <td>Pineapple</td>
+        <td>$2.00</td>
+    </tr>
+    <tr>
+        <td>Total</td>
+        <td>$3.75</td>
+    </tr>
+</table>
+
+<h3>Table 2: A More Complex Sample Table</h3>
+<table>
+   
+    <tr>
+        <th rowspan="2"><img src="{% static 'pic.png'%}" ></th>
+        <th colspan="4">Cmelid</th>
+    </tr> 
+    <tr>   
+        <th># of humps</th>
+        <th>Indigenous region</th>
+        <th>Spits?</th>
+        <th>Produces wool?</th>
+    </tr>
+
+    <tr>
+        <td>Dromedary</td>
+        <td>1</td>
+        <td>Arabian Peninsula</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Camels(bactrain)</td>
+        <td>2</td>
+        <td>Africa/Asia</td>
+        <td>Yes</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>LIamas</td>
+        <td>1</td>
+        <td>Andes Mountains</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+</table>
+{% endblock content %}
