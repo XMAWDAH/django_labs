@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .models import Book 
 from django.http import HttpResponse
 def index(request):
  return render(request, "bookmodule/index.html")
@@ -55,6 +55,29 @@ def viewbook(request, bookId):
    if book2['id'] == bookId: targetBook = book2 
    context = {'book':targetBook} # book is the variable name accessible by the template 
    return render(request, 'bookmodule/show.html', context) 
+
+
+#lab7
+
+
+def __insertion_db():
+    book1 = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley', edition = 2)
+    book1.save()
+    book2 = Book(title = 'Reversing: Secrets of Reverse Engineering', author = 'E. Eilam', edition = 1)
+    book2.save()
+    book3 = Book(title = 'The Hundred-Page Machine Learning Book', author = 'Andriy Burkov', edition = 1)
+    book3.save()
+    
+def simple_query(request): 
+   mybooks=Book.objects.filter(title__icontains='and') # <- multiple objects 
+   return render(request, 'bookmodule/bookList.html', {'books':mybooks}) 
+
+def lookup_query(request): 
+   mybooks=books=Book.objects.filter(author__isnull =  False).filter(title__icontains='and').filter(edition__gte = 2).exclude(price__lte = 100)[:10] 
+   if len(mybooks)>=1: 
+      return render(request, 'bookmodule/bookList.html', {'books':mybooks}) 
+   else: 
+      return render(request, 'bookmodule/index.html') 
 
 #-----Lab4----
 """
