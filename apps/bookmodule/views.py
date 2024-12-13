@@ -1,6 +1,15 @@
 from django.shortcuts import render
-from .models import Book 
 from django.http import HttpResponse
+from .models import Book,Address,Student
+from django.db.models import Q
+from django.db.models import Count, Sum,Max,Min,Avg
+from django.shortcuts import  redirect, get_object_or_404
+#from .forms import BookForm,AddressForm,StudentForm,StudentForm2,SignUpForm
+from django.contrib.auth import login,logout,authenticate
+from django.contrib import messages
+from .models import Book
+
+
 def index(request):
  return render(request, "bookmodule/index.html")
 
@@ -41,24 +50,14 @@ def search(request):
  return render(request, 'bookmodule/base.html')
 
 def __getBooksList(): 
-    book1 = {'id':12344321, 'title':'Continuous Delivery', 'author':'J.Humble and D. Farley'} 
-    book2 = {'id':56788765,'title':'Reversing: Secrets of Reverse Engineering', 'author':'E. Eilam'} 
-    book3 = {'id':43211234, 'title':'The Hundred-Page Machine Learning Book', 'author':'Andriy Burkov'} 
-    return [book1, book2, book3] 
+      return Book.objects.all()
 
-def viewbook(request, bookId): 
-   # assume that we have the following books somewhere (e.g. database) 
-   book1 = {'id':123, 'title':'Continuous Delivery', 'author':'J. Humble and D. Farley'} 
-   book2 = {'id':456, 'title':'Secrets of Reverse Engineering', 'author':'E. Eilam'} 
-   targetBook = None 
-   if book1['id'] == bookId: targetBook = book1 
-   if book2['id'] == bookId: targetBook = book2 
-   context = {'book':targetBook} # book is the variable name accessible by the template 
-   return render(request, 'bookmodule/show.html', context) 
+def viewbook(request, bookId):
+    targetBook = get_object_or_404(Book, id=bookId)
+    return render(request, 'bookmodule/show.html', {'book': targetBook})
 
 
 #lab7
-
 
 def __insertion_db():
     book1 = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley', edition = 2)
@@ -67,10 +66,25 @@ def __insertion_db():
     book2.save()
     book3 = Book(title = 'The Hundred-Page Machine Learning Book', author = 'Andriy Burkov', edition = 1)
     book3.save()
-    
-def simple_query(request): 
-   mybooks=Book.objects.filter(title__icontains='and') # <- multiple objects 
-   return render(request, 'bookmodule/bookList.html', {'books':mybooks}) 
+    book4 = Book(title="Clean Code: A Handbook of Agile Software Craftsmanship", author="Robert C. Martin", price=80.0, edition=2)
+    book4.save()
+    book5 = Book(title="The Pragmatic Programmer: Your Journey to Mastery", author="Andrew Hunt and David Thomas", price=90.0, edition=3)
+    book5.save()
+    book6 = Book(title="Artificial Intelligence: A Guide to Intelligent Systems", author="Michael Negnevitsky", price=110.0, edition=4)
+    book6.save()
+    book7 = Book(title="Python Crash Course: A Hands-On Project-Based Introduction to Programming", author="Eric Matthes", price=70.0, edition=1)
+    book7.save()
+    book8 = Book(title="Refactoring: Improving the Design of Existing Code", author="Martin Fowler", price=100.0, edition=2)
+    book8.save()
+
+def createBook(request):
+    mybook = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley', edition = 1)
+    mybook.save()
+    return HttpResponse("Book created successfully")
+
+def simple_query(request):
+    mybooks=Book.objects.filter(title__icontains='and') # <- multiple objects
+    return render(request, 'bookmodule/bookList.html', {'books':mybooks})
 
 def lookup_query(request): 
    mybooks=books=Book.objects.filter(author__isnull =  False).filter(title__icontains='and').filter(edition__gte = 2).exclude(price__lte = 100)[:10] 
@@ -78,6 +92,40 @@ def lookup_query(request):
       return render(request, 'bookmodule/bookList.html', {'books':mybooks}) 
    else: 
       return render(request, 'bookmodule/index.html') 
+
+
+def lab8_task1(request):
+   mybooks = Book.objects.filter(Q(price__lte = 50))
+   return render(request, 'bookmodule/lab8/task1.html',{'books':mybooks})
+
+def lab8_task2(request):
+   mybooks = Book.objects.filter(Q(edition__gt = 2) & (Q(title__icontains='qu')|Q(author__icontains='qu')))
+   return render(request, 'bookmodule/lab8/task2.html',{'books':mybooks})
+
+def lab8_task3(request):
+    mybooks = Book.objects.filter(~Q(edition__gt = 2) & (~Q(title__icontains='qu')|~Q(author__icontains='qu')))
+    return render(request, 'bookmodule/lab8/task3.html',{'books':mybooks})
+
+def lab8_task4(request):
+   mybooks = Book.objects.all().order_by('title')
+   return render(request, 'bookmodule/lab8/task4.html',{'books':mybooks})
+
+def lab8_task5(request):
+    mybooks = Book.objects.aggregate(
+        total_books=Count('id'),
+        total_price=Sum('price'),
+        average_price=Avg('price'),
+        max_price=Max('price'),
+        min_price=Min('price')
+    )
+    return render(request, 'bookmodule/lab8/task5.html', {'stats': mybooks})
+ 
+
+def lab8_task6(request):
+    city_counts = Address.objects.annotate(student_count=Count('student')).values_list('city', 'student_count')
+    city_counts_dict = dict(city_counts)
+    return render(request, 'bookmodule/lab8/task6.html', {'city_counts': city_counts_dict})
+
 
 #-----Lab4----
 """

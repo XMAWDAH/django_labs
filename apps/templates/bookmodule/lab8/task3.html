@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+    <title>Task 3 - Books with editions ≤ 2 and no 'qu' in title/author</title>
+    <h1>Books with editions ≤ 2 and no 'qu' in title or author</h1>
+    <ul>
+        {% for book in books %}
+            <li>{{ book.title }} - {{ book.author }} - Editions: {{ book.edition }}</li>
+        {% endfor %}
+    </ul>
+    {% endblock content %} 

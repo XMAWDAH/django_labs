@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+    <title>Task 1 - Books with price ≤ 50</title>
+    <h1>Books with price less than or equal to 50</h1>
+    <ul>
+        {% for book in books %}
+            <li>{{ book.title }} - ${{ book.price }}</li>
+        {% endfor %}
+    </ul>
+    {% endblock content %} 

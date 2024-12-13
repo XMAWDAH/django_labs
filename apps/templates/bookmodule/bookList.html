@@ -42,8 +42,9 @@ if request.method == "POST":
             if contained: newBooks.append(item) 
         return render(request, 'bookmodule/bookList.html', {'books':newBooks}) 
 
-{% for obj in books %} 
-ID: {{obj.id}}, Title: {{obj.title}} 
-<hr> 
-{% endfor %} 
+    {% for obj in books %}
+        <p>ID: {{ obj.id }}, Title: {{ obj.title }}</p>
+        <hr>
+    {% endfor %}
+    
 {% endblock content %} 
