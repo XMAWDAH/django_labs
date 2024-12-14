@@ -76,6 +76,9 @@ def __insertion_db():
     book7.save()
     book8 = Book(title="Refactoring: Improving the Design of Existing Code", author="Martin Fowler", price=100.0, edition=2)
     book8.save()
+    address = Address.objects.create(city='Al-Qassim', street='omarbin')
+    student = Student.objects.create(name='STAR', age=23, address=address)
+    student.save()
 
 def createBook(request):
     mybook = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley', edition = 1)
