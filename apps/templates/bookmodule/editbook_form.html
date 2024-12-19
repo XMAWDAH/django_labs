@@ -1,0 +1,12 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+
+<h3>Updating a Book</h3>
+<form method = "post">
+{% csrf_token %}
+{{form}}
+<button type="submit">Update Book</button>
+</form>
+
+{% endblock content %}
