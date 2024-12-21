@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Uploaded Images</h1>
+<a href="{% url 'upload_image' %}">Upload New Image</a>
+<ul>
+    {% for image in images %}
+        <li>
+            <h3>{{ image.title }}</h3>
+            <img src="{{image.image.url }}" alt="{{ image.title }}" style="max-width: 400px; max-height: 200px;">
+        </li>
+
+   
+    {% empty %}
+        <li>No images uploaded yet.</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

@@ -14,3 +14,12 @@ class Student(models.Model):
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     address =  models.ForeignKey(Address,on_delete=models.CASCADE)
+
+class Student2(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    addresses = models.ManyToManyField(Address)
+
+class ImageTable(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='images/')

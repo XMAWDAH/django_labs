@@ -1,13 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Book,Address,Student
+from .models import Book,Student2,Student,ImageTable,Address
 from django.db.models import Q
 from django.db.models import Count, Sum,Max,Min,Avg
 from django.shortcuts import  redirect, get_object_or_404
-#from .forms import BookForm,AddressForm,StudentForm,StudentForm2,SignUpForm
-from django.contrib.auth import login,logout,authenticate
-from django.contrib import messages
-from .models import Book
+from .forms import BookForm, ImageForm, StudentForm, StudentForm2
 
 
 def index(request):
@@ -171,8 +168,6 @@ def list_books_form(request):
     mybooks = Book.objects.all()
     return render(request, 'books/listbooks_form.html', {'books': mybooks})
 
-from .forms import BookForm
-
 def add_book_form(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
@@ -184,7 +179,6 @@ def add_book_form(request):
     return render(request, 'books/addbook_form.html', {'form': form})
 
 def edit_book_form(request, id):
-
     mybooks = get_object_or_404(Book, id=id)
     if request.method == 'POST':
         form = BookForm(request.POST, instance=mybooks)
@@ -201,6 +195,87 @@ def delete_book_form(request, id):
     return redirect('list_books')
 
 
+def student_list(request):
+    students = Student.objects.all()
+    return render(request, 'bookmodule/student_list.html', {'students': students})
+
+
+def student_add(request):
+    form = StudentForm()
+    if request.method=='POST':
+        form=StudentForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('student_list')
+    return render(request, 'bookmodule/student_form.html', {'form':form})
+
+
+def student_update(request, bID):
+    student = Student.objects.get(id=bID)
+    if request.method=='POST':
+        form = StudentForm(request.POST,instance=student)
+        if form.is_valid:
+            form.save()
+            return redirect('student_list')
+    form = StudentForm(instance=student)
+    return render(request, 'bookmodule/student_form.html', {'form':form})
+
+def student_delete(request, bID):
+    student = Student.objects.get(id=bID)
+    student.delete()
+    return redirect('student_list')
+
+
+
+def student_list2(request):
+    students = Student2.objects.all()
+    return render(request, 'bookmodule/student_list2.html', {'students': students})
+
+def addStudent2(request):
+    if request.method == 'POST':
+        form = StudentForm2(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listStudent2')
+    else:
+        form = StudentForm2()
+    return render(request, 'bookmodule/student_form.html', {'form': form})    
+        
+        
+
+def editStudent2(request,bID):
+    student = get_object_or_404(Student2, id=bID)  # Get the student by primary key
+    if request.method == 'POST':
+        form = StudentForm2(request.POST, instance=student)
+        if form.is_valid():
+            form.save()  # Save the updated data
+            return redirect('listStudent2')  # Redirect to the student list view
+    else:
+        form = StudentForm2(instance=student)
+    return render(request, 'bookmodule/student_form.html', {'form': form})     
+        
+            
+def deleteStudent2(request,bID):
+    student = get_object_or_404(Student2, id=bID)
+    if request.method == 'POST':
+        student.delete()  
+        return redirect('listStudent2') 
+    return render(request, 'confirm_delete.html', {'student': student})
+     
+
+def upload_image(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('image_list')
+    else:
+        form = ImageForm()
+    return render(request, 'bookmodule/upload_image.html', {'form': form})
+
+def image_list(request):
+    images = ImageTable.objects.all()
+    return render(request, 'bookmodule/image_list.html', {'images': images})
 
 
 #-----Lab4----
